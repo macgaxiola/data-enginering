@@ -1,2 +1,2 @@
-# data-enginerring-bootcamp
+# data-enginering-bootcamp
 data-enginerring-bootcamp
