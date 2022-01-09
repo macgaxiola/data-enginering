@@ -25,6 +25,7 @@ dag = DAG(
     schedule_interval='@once', #run once
     catchup=False,
     tags=['insertData'],
+    start_date=datetime(2021, 9, 1)
 )
 
 # get path for local CSV
