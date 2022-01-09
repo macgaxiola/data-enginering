@@ -47,7 +47,7 @@ def csv_to_postgres():
     
 
 task1 = PythonOperator(task_id='csv_to_database',
-    provided_context=True,
+    provide_context=True,
     python_callable=csv_to_postgres,
     dag=dag
 )
