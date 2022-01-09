@@ -1,5 +1,6 @@
 import airflow
 import os
+from datetime import datetime, timedelta
 import psycopg2 #DB API 2.0 compliant PostgreSQL driver
 from airflow import DAG 
 from airflow.providers.postgres.operators.postgres import PostgresOperator
