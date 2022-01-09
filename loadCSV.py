@@ -23,7 +23,8 @@ dag = DAG(
     'insert_data', #identifier
     default_args=default_args,
     schedule_interval='@once', #run once
-    cathup=False
+    catchup=False,
+    tags=['insertData'],
 )
 
 # get path for local CSV
