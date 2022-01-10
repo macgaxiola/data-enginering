@@ -25,7 +25,7 @@ dag = DAG(
     schedule_interval='@once', #run once
     catchup=False,
     tags=['insertData'],
-    start_date=datetime(2021, 9, 1)
+    start_date=datetime(2022, 1 , 9)
 )
 
 # get path for local CSV
@@ -45,7 +45,9 @@ def csv_to_postgres():
         next(f)
         curr.copy_from(f, 'user_purchase_1', sep=',')
         get_postgres_connection.commit()
-    
+
+GOOGLE_CONN_ID = "google_cloud_default"
+POSTGRES_CONN_ID = "postgres_default"
 
 task1 = PythonOperator(task_id='csv_to_database',
     provide_context=True,
