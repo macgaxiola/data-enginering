@@ -37,17 +37,14 @@ def file_path(relative_path):
 
 def csv_to_postgres():
     # connecting
-    pg_hook = PostgresHook(postgress_conn_id='posgres_default')
-    get_postgres_connection = PostgresHook(postgress_conn_id='posgres_default').get_conn()
+    pg_hook = PostgresHook(postgress_conn_id='postgres_default')
+    get_postgres_connection = PostgresHook(postgress_conn_id='postgres_default').get_conn()
     curr = get_postgres_connection.cursor()
     # CSV loading table
     with open(file_path("user_purchase.csv"),"r") as f:
         next(f)
         curr.copy_from(f, 'user_purchased_1', sep=',')
         get_postgres_connection.commit()
-
-GOOGLE_CONN_ID = "google_cloud_default"
-POSTGRES_CONN_ID = "postgres_default"
 
 task1 = PythonOperator(task_id='csv_to_database',
     provide_context=True,
