@@ -46,9 +46,10 @@ def csv_to_postgres():
         curr.copy_from(f, 'user_purchase', sep=',')
         get_postgres_connection.commit()
 
+# adding creationg of table
 task1 = PostgresOperator(task_id = 'create_table',
                         sql="""
-                        CREATE TABLE IF NOT EXISTS myschema.user_purchase(
+                        CREATE TABLE IF NOT EXISTS user_purchase (
                             invoice_number VARCHAR(10), 
                             stock_code VARCHAR(20), 
                             detail VARCHAR(1000), 
@@ -58,7 +59,7 @@ task1 = PostgresOperator(task_id = 'create_table',
                             customer_id INTEGER, 
                             country VARCHAR(20));
                             """,
-                            postgres_conn_id= 'postgres_default', 
+                            postgres_conn_id= 'postgres_default'adasdasdda, 
                             autocommit=True,
                             dag= dag)
 
