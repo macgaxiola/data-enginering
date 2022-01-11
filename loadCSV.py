@@ -43,13 +43,29 @@ def csv_to_postgres():
     # CSV loading table
     with open(file_path("user_purchase.csv"),"r") as f:
         next(f)
-        curr.copy_from(f, 'user_purchased_1', sep=',')
+        curr.copy_from(f, 'user_purchase', sep=',')
         get_postgres_connection.commit()
 
-task1 = PythonOperator(task_id='csv_to_database',
+task1 = PostgresOperator(task_id = 'create_table',
+                        sql="""
+                        CREATE TABLE IF NOT EXISTS myschema.user_purchase(
+                            invoice_number VARCHAR(10), 
+                            stock_code VARCHAR(20), 
+                            detail VARCHAR(1000), 
+                            quantity INTEGER, 
+                            invoice_date timestamp, 
+                            unit_price numeric(8,3), 
+                            customer_id INTEGER, 
+                            country VARCHAR(20));
+                            """,
+                            postgres_conn_id= 'postgres_default', 
+                            autocommit=True,
+                            dag= dag)
+
+task2 = PythonOperator(task_id='csv_to_database',
     provide_context=True,
     python_callable=csv_to_postgres,
     dag=dag
 )
 
-task1
+task1 >> task2
