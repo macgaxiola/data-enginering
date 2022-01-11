@@ -59,7 +59,7 @@ task1 = PostgresOperator(task_id = 'create_table',
                             customer_id INTEGER, 
                             country VARCHAR(20));
                             """,
-                            postgres_conn_id= 'postgres_default'adasdasdda, 
+                            postgres_conn_id= 'postgres_default', 
                             autocommit=True,
                             dag= dag)
 
