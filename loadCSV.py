@@ -43,7 +43,7 @@ def csv_to_postgres():
     # CSV loading table
     with open(file_path("user_purchase.csv"),"r") as f:
         next(f)
-        curr.copy_from(f, 'user_purchase', sep=',')
+        curr.copy_expert(f, 'user_purchase', sep=',')
         get_postgres_connection.commit()
 
 # adding creationg of table
