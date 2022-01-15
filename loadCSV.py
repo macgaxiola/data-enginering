@@ -43,7 +43,7 @@ def csv_to_postgres():
     get_postgres_connection = PostgresHook(postgress_conn_id='postgres_default').get_conn()
     curr = get_postgres_connection.cursor()
     # CSV loading table
-    with open(file_path("user_purchase.csv"),"r") as f:
+    with open(file_path("test.csv"),"r") as f:
         next(f)
         curr.copy_from(f, 'user_purchase', sep=',', null='N/A')
         #curr.copy_expert('COPY user_purchase FROM STDIN WITH (FORMAT,CSV)',f)
