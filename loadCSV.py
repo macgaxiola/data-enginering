@@ -40,6 +40,19 @@ def file_path(relative_path):
 def cvs_to_postgress_pandas():
     data = pd.read_csv(file_path("test.csv"))
     df = pd.DataFrame(data)
+    df.rename(columns=
+    {
+        'InvoiceNo':'invoice_number', 
+        'StockCode':'stock_code',
+        'Description':'detail',
+        'Quantity':'quantity',
+        'InvoiceDate':'invoice_date',
+        'UnitPrice':'unit_price',
+        'CustomerID':'customer_id',
+        'Country':'country'
+    },
+        inplace=True
+    )
     print(df)
     # connecting
     pg_hook = PostgresHook(postgress_conn_id='postgres_default').get_conn()
