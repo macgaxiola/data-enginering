@@ -46,7 +46,7 @@ def csv_to_postgres():
     with open(file_path("test.csv"),"r") as f:
         next(f)
         #curr.copy_from(f, 'user_purchase', sep=',', null='N/A')
-        curr.copy_expert("""COPY user_purchase(invoice_number, stock_code,detail,quantity,invoice_date,unit_price,customer_id,country) FROM STDIN WITH (FORMAT,CSV)""",f)
+        curr.copy_expert("""COPY user_purchase(invoice_number, stock_code,detail,quantity,invoice_date,unit_price,customer_id,country) FROM STDIN WITH CSV)""",f)
         #cursor.copy_expert('COPY table_name(col1, col2) FROM STDIN WITH HEADER CSV', f)
         get_postgres_connection.commit()
 
