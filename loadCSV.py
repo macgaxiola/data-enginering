@@ -69,7 +69,7 @@ def cvs_to_postgress_pandas():
             row.invoice_date,
             row.unit_price,
             row.customer_id,
-            row.country,
+            row.country
             )
     pg_hook.commit()
 
