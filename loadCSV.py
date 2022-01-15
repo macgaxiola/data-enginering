@@ -92,7 +92,7 @@ createTable = PostgresOperator(task_id = 'create_table',
 
 copy_data = PythonOperator(task_id='csv_to_database',
     provide_context=True,
-    python_callable=cvs_to_postgress_pandas(),
+    python_callable=cvs_to_postgress_pandas,
     dag=dag
 )
 
