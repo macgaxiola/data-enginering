@@ -62,14 +62,14 @@ def cvs_to_postgress_pandas():
             INSERT INTO user_purchase (invoice_number, stock_code,detail,quantity,invoice_date,unit_price,customer_id,country)
             VALUES (?,?,?,?,?,?,?,?)
             """,
-            row.InvoiceNo, 
-            row.StockCode,
-            row.Description,
-            row.Quantity,
-            row.InvoiceDate,
-            row.UnitPrice,
-            row.CustomerID,
-            row.Country,
+            row.invoice_number, 
+            row.stock_code,
+            row.detail,
+            row.quantity,
+            row.invoice_date,
+            row.unit_price,
+            row.customer_id,
+            row.country,
             )
     pg_hook.commit()
 
