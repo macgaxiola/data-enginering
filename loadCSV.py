@@ -1,11 +1,13 @@
 import airflow
 import os
-from datetime import datetime, timedelta
+import csv
 import psycopg2 #DB API 2.0 compliant PostgreSQL driver
+from datetime import datetime, timedelta
 from airflow import DAG 
 from airflow.providers.postgres.operators.postgres import PostgresOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.hooks.postgres_hook import PostgresHook
+
 
 # load csv to GCP SQL
 
@@ -43,7 +45,8 @@ def csv_to_postgres():
     # CSV loading table
     with open(file_path("user_purchase.csv"),"r") as f:
         next(f)
-        curr.copy_expert(f, 'user_purchase', sep=',')
+        print(f)
+        curr.copy_from(f, 'user_purchase', sep=',')
         get_postgres_connection.commit()
 
 # adding creationg of table
