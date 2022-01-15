@@ -45,7 +45,8 @@ def csv_to_postgres():
     # CSV loading table
     with open(file_path("user_purchase.csv"),"r") as f:
         next(f)
-        curr.copy_expert("COPY user_purchase TO STDOUT WITH CSV")
+        curr.copy_expert('COPY user_purchase TO STDIN WITH CSV',f)
+        #cursor.copy_expert('COPY table_name(col1, col2) FROM STDIN WITH HEADER CSV', f)
         get_postgres_connection.commit()
 
 # adding creationg of table
