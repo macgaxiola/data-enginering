@@ -59,10 +59,12 @@ def cvs_to_postgress_pandas():
     curr = pg_hook.cursor()
     # inserting to db
     for row in df.itertuples():
-        query = "INSERT INTO user_purchase (invoice_number, stock_code , detail , quantity , invoice_date , unit_price , customer_id, country) VALUES ('{}','{}',''{}'','{}','{}','{}','{}','{}')".format(
+        formated_detail = row.detail.replace("'","''")
+        print(formated_detail)
+        query = "INSERT INTO user_purchase (invoice_number, stock_code , detail , quantity , invoice_date , unit_price , customer_id, country) VALUES ('{}','{}','{}','{}','{}','{}','{}','{}')".format(
             row.invoice_number,
             row.stock_code,
-            row.detail,
+            formated_detail,
             row.quantity,
             row.invoice_date,
             row.unit_price,
