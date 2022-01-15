@@ -45,7 +45,7 @@ def csv_to_postgres():
     # CSV loading table
     with open(file_path("user_purchase.csv"),"r") as f:
         next(f)
-        curr.copy_expert("COPY user_purchase TO STDOUT WITH CSV DELIMETER ',' ")
+        curr.copy_expert("COPY user_purchase TO STDOUT WITH CSV")
         get_postgres_connection.commit()
 
 # adding creationg of table
