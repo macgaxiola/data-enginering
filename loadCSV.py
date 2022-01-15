@@ -57,6 +57,7 @@ def cvs_to_postgress_pandas():
     # connecting
     pg_hook = PostgresHook(postgress_conn_id='postgres_default').get_conn()
     curr = pg_hook.cursor()
+    # connecting 2
     for row in df.itertuples():
         query = "INSERT INTO user_purchase (invoice_number, stock_code , detail , quantity , invoice_date , unit_price , customer_id, country) VALUES ('{}','{}', {},'{}','{}','{}','{}','{}')".format(
             row.invoice_number,
@@ -66,8 +67,7 @@ def cvs_to_postgress_pandas():
             row.invoice_date,
             row.unit_price,
             row.customer_id,
-            row.country
-        )
+            row.country )
         curr.execute(query)
         pg_hook.commit()
 
