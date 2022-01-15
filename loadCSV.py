@@ -38,18 +38,6 @@ def file_path(relative_path):
     new_path = os.path.join(dir, *split_path)
     return new_path
 
-def csv_to_postgres():
-    # connecting
-    pg_hook = PostgresHook(postgress_conn_id='postgres_default').get_conn()
-    curr = pg_hook.cursor()
-    # CSV loading table
-    with open(file_path("test.csv"),"r") as f:
-        next(f)
-        #curr.copy_from(f, 'user_purchase', sep=',', null='N/A')
-        curr.copy_expert("""COPY user_purchase(invoice_number, stock_code,detail,quantity,invoice_date,unit_price,customer_id,country) FROM STDIN WITH CSV)""",f)
-        #cursor.copy_expert('COPY table_name(col1, col2) FROM STDIN WITH HEADER CSV', f)
-    pg_hook.commit()
-
 def cvs_to_postgress_pandas():
     data = pd.read_csv(file_path("test.csv"))
     df = pd.DataFrame(data)
@@ -57,12 +45,11 @@ def cvs_to_postgress_pandas():
     # connecting
     pg_hook = PostgresHook(postgress_conn_id='postgres_default').get_conn()
     curr = pg_hook.cursor()
-
     for row in df.itertuples():
-        curr.execute('''
+        curr.execute("""
                 INSERT INTO user_purchase (invoice_number, stock_code,detail,quantity,invoice_date,unit_price,customer_id,country)
                 VALUES (?,?,?,?,?,?,?,?)
-                ''',
+                """,
                 row.invoice_number, 
                 row.stock_code,
                 row.detail,
@@ -77,7 +64,7 @@ def cvs_to_postgress_pandas():
 
 
 # adding creationg of table
-task1 = PostgresOperator(task_id = 'create_table',
+createTable = PostgresOperator(task_id = 'create_table',
                         sql="""
                         CREATE TABLE IF NOT EXISTS user_purchase (
                             invoice_number VARCHAR(10), 
@@ -93,10 +80,10 @@ task1 = PostgresOperator(task_id = 'create_table',
                             autocommit=True,
                             dag= dag)
 
-task2 = PythonOperator(task_id='csv_to_database',
+copy_data = PythonOperator(task_id='csv_to_database',
     provide_context=True,
     python_callable=cvs_to_postgress_pandas(),
     dag=dag
 )
 
-task1 >> task2
+createTable >> copy_data
