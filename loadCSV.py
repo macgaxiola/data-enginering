@@ -1,13 +1,12 @@
-import airflow
 import os
-import csv
-import psycopg2 #DB API 2.0 compliant PostgreSQL driver
+import airflow
+import pandas as pd
 from datetime import datetime, timedelta
 from airflow import DAG 
 from airflow.providers.postgres.operators.postgres import PostgresOperator
 from airflow.operators.python_operator import PythonOperator
 from airflow.hooks.postgres_hook import PostgresHook
-import pandas as pd
+
 
 
 # load csv to GCP SQL
@@ -47,21 +46,19 @@ def cvs_to_postgress_pandas():
     curr = pg_hook.cursor()
     for row in df.itertuples():
         curr.execute("""
-                INSERT INTO user_purchase (invoice_number, stock_code,detail,quantity,invoice_date,unit_price,customer_id,country)
-                VALUES (?,?,?,?,?,?,?,?)
-                """,
-                row.invoice_number, 
-                row.stock_code,
-                row.detail,
-                row.quantity,
-                row.invoice_date,
-                row.unit_price,
-                row.customer_id,
-                row.country,
-                )
+            INSERT INTO user_purchase (invoice_number, stock_code,detail,quantity,invoice_date,unit_price,customer_id,country)
+            VALUES (?,?,?,?,?,?,?,?)
+            """,
+            row.InvoiceNo, 
+            row.StockCode,
+            row.Description,
+            row.Quantity,
+            row.InvoiceDate,
+            row.UnitPrice,
+            row.CustomerID,
+            row.Country,
+            )
     pg_hook.commit()
-
-
 
 # adding creationg of table
 createTable = PostgresOperator(task_id = 'create_table',
