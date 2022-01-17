@@ -38,7 +38,7 @@ def file_path(relative_path):
     return new_path
 
 def cvs_to_postgress_pandas():
-    data = pd.read_csv(file_path("test.csv"))
+    data = pd.read_csv(file_path("user_purchase.csv"))
     df = pd.DataFrame(data)
     df.rename(columns=
     {
